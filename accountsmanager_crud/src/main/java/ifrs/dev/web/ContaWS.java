@@ -3,6 +3,7 @@ package ifrs.dev.web;
 import java.util.List;
 
 import ifrs.dev.model.Conta;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.annotation.security.PermitAll;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -40,7 +41,7 @@ public class ContaWS {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Conta> list() {
         // 3 - O método `listAll` recupera todos os objetos da classe Conta.
-        return Conta.listAll();
+        return PanacheEntityBase.listAll();
     }
 
     @GET
@@ -48,14 +49,14 @@ public class ContaWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Conta list(@PathParam("id") Long id) {
         // 4 - O método do Panache `findById` recupera um objeto da classe Conta.
-        return Conta.findById(id);
+        return PanacheEntityBase.findById(id);
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Conta delete(@PathParam("id") Long id) {
-        Conta u = Conta.findById(id);
+        Conta u = PanacheEntityBase.findById(id);
         u.delete();
         return u;
     }
@@ -65,7 +66,7 @@ public class ContaWS {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Conta edit(@FormParam("id") Long id, @FormParam("nome") String banco, @FormParam("senha") Long agencia, @FormParam("senha") Long numeroConta) {
-        Conta u = Conta.findById(id);
+        Conta u = PanacheEntityBase.findById(id);
         u.setBanco(banco);
         u.setAgencia(agencia);
         u.setNumeroConta(numeroConta);
@@ -77,7 +78,7 @@ public class ContaWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Conta findByLogin(@FormParam("login") String login) {
         // 4 - O método do Panache `findById` recupera um objeto da classe Conta.
-        return Conta.find("login", login).firstResult();
+        return PanacheEntityBase.find("login", login).firstResult();
     }
 
 }

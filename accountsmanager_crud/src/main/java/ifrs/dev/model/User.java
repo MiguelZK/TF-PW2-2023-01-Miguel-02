@@ -18,8 +18,8 @@ import jakarta.persistence.OneToMany;
 public class User extends PanacheEntity {
     private String nome;
 
-    @Column(unique = true)
-    private String login;
+/*     @Column(unique = true)
+    private String login; */
 
     private String senha;
 
@@ -40,13 +40,13 @@ public class User extends PanacheEntity {
         return this.nome;
     }
 
-    public void setLogin(String login) {
+/*     public void setLogin(String login) {
         this.login = login;
     }
 
     public String getLogin() {
         return this.login;
-    }
+    } */
 
     public void setSenha(String senha) {
         this.senha = senha;

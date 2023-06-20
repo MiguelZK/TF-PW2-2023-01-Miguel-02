@@ -1,16 +1,22 @@
 package ifrs.dev.model;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+// import java.util.List;
+
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+// import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+/* import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany; */
 
 @Entity
 public class Conta extends PanacheEntity {
 
-    private Long idConta;
+    // private Long idConta;
     private String banco;
     private Long numeroConta;
     private Long agencia;
@@ -18,13 +24,18 @@ public class Conta extends PanacheEntity {
     private Boolean ativa;
     private Date dataAbertura;
     private Date dataEncerramento;
-    private List<Transacao> transacoes;
-    
-    public Conta() {
-    }
 
-    public Conta(String banco, Long numeroConta, Long agencia, Double saldo, Boolean ativa, Date dataAbertura,
-            Date dataEncerramento, List<Transacao> transacoes) {
+/*     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<Transacao> transacoes; */
+
+    /* public Conta() {
+        // this.transacoes = new ArrayList<>();
+    } */
+
+    /* public Conta(String banco, Long numeroConta, Long agencia, Double saldo, Boolean ativa, Date dataAbertura,
+            Date dataEncerramento) {
         this.banco = banco;
         this.numeroConta = numeroConta;
         this.agencia = agencia;
@@ -32,16 +43,18 @@ public class Conta extends PanacheEntity {
         this.ativa = ativa;
         this.dataAbertura = dataAbertura;
         this.dataEncerramento = dataEncerramento;
-        this.transacoes = transacoes;
-    }
+        // this.transacoes = new ArrayList<>();
+    } */
 
-    public Long getIdConta() {
-        return idConta;
-    }
-
-    public void setIdConta(Long idConta) {
-        this.idConta = idConta;
-    }
+    /*
+     * public Long getIdConta() {
+     * return idConta;
+     * }
+     * 
+     * public void setIdConta(Long idConta) {
+     * this.idConta = idConta;
+     * }
+     */
 
     public String getBanco() {
         return banco;
@@ -99,19 +112,18 @@ public class Conta extends PanacheEntity {
         this.dataEncerramento = dataEncerramento;
     }
 
-    public List<Transacao> getTransacoes() {
+/*     public List<Transacao> getTransacoes() {
         return transacoes;
     }
 
     public void setTransacoes(List<Transacao> transacoes) {
         this.transacoes = transacoes;
-    }
+    } */
 
-    @Override
+    /* @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((idConta == null) ? 0 : idConta.hashCode());
         result = prime * result + ((banco == null) ? 0 : banco.hashCode());
         result = prime * result + ((numeroConta == null) ? 0 : numeroConta.hashCode());
         result = prime * result + ((agencia == null) ? 0 : agencia.hashCode());
@@ -119,7 +131,7 @@ public class Conta extends PanacheEntity {
         result = prime * result + ((ativa == null) ? 0 : ativa.hashCode());
         result = prime * result + ((dataAbertura == null) ? 0 : dataAbertura.hashCode());
         result = prime * result + ((dataEncerramento == null) ? 0 : dataEncerramento.hashCode());
-        result = prime * result + ((transacoes == null) ? 0 : transacoes.hashCode());
+        // result = prime * result + ((transacoes == null) ? 0 : transacoes.hashCode());
         return result;
     }
 
@@ -132,11 +144,6 @@ public class Conta extends PanacheEntity {
         if (getClass() != obj.getClass())
             return false;
         Conta other = (Conta) obj;
-        if (idConta == null) {
-            if (other.idConta != null)
-                return false;
-        } else if (!idConta.equals(other.idConta))
-            return false;
         if (banco == null) {
             if (other.banco != null)
                 return false;
@@ -171,14 +178,13 @@ public class Conta extends PanacheEntity {
             if (other.dataEncerramento != null)
                 return false;
         } else if (!dataEncerramento.equals(other.dataEncerramento))
-            return false;
+            return false;/* 
         if (transacoes == null) {
             if (other.transacoes != null)
                 return false;
         } else if (!transacoes.equals(other.transacoes))
-            return false;
-        return true;
-    }
+            return false; */
+        /*return true;
+    } */
 
-    
 }
