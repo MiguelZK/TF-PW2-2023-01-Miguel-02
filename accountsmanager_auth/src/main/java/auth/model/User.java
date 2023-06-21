@@ -40,7 +40,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", nome=" + nome + ", /* login=" + login + ",  */senha=" + senha + "]";
+        return "User [id=" + id + ", nome=" + nome + /* ", login=" + login + */ ",  senha=" + senha + "]";
     }
 
     @Override
