@@ -3,7 +3,7 @@ package auth.model;
 public class User {
     private Long id;
     private String nome;
-    private String login;
+    // private String login;
     private String senha;
 
     public Long getId() {
@@ -22,13 +22,13 @@ public class User {
         return this.nome;
     }
 
-    public void setLogin(String login) {
+/*     public void setLogin(String login) {
         this.login = login;
     }
 
     public String getLogin() {
         return this.login;
-    }
+    } */
 
     public void setSenha(String senha) {
         this.senha = senha;
@@ -40,7 +40,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + "]";
+        return "User [id=" + id + ", nome=" + nome + ", /* login=" + login + ",  */senha=" + senha + "]";
     }
 
     @Override
@@ -49,7 +49,7 @@ public class User {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        /* result = prime * result + ((login == null) ? 0 : login.hashCode()); */
         result = prime * result + ((senha == null) ? 0 : senha.hashCode());
         return result;
     }
@@ -73,11 +73,11 @@ public class User {
                 return false;
         } else if (!nome.equals(other.nome))
             return false;
-        if (login == null) {
+/*        if (login == null) {
             if (other.login != null)
                 return false;
-        } else if (!login.equals(other.login))
-            return false;
+         } else if (!login.equals(other.login))
+            return false; */
         if (senha == null) {
             if (other.senha != null)
                 return false;
