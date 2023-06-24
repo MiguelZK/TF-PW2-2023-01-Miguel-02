@@ -26,23 +26,23 @@ public class UserWS {
     @PermitAll
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public User save(@FormParam("nome") String nome, /* @FormParam("login") String login, */
+    public User save(@FormParam("nome") String nome, @FormParam("login") String login,
             @FormParam("senha") String senha) {
         try {
             User user = new User();
             user.setNome(nome);
-            // user.setLogin(login);
+            user.setLogin(login);
             user.setSenha(senha);
             // 2 - O método do Panache `persist` possibilita persistir um objeto.
             user.persist();
             return user;
         } catch (RuntimeException e) {
-            if (nome == null || nome.isEmpty() || /* login == null || login.isEmpty() || */ senha == null
+            if (nome == null || nome.isEmpty() || login == null || login.isEmpty() || senha == null
                     || senha.isEmpty()) {
                 System.out.println("Nome não pode ser nulo ou vazio");
-            }/*  else if (findByLogin(login) != null) {
+            }  else if (findByLogin(login) != null) {
                 System.out.println("Login já existe");
-            } */
+            }
             return null;
         } catch (Exception e) {
             System.out.println("Erro ao salvar");
@@ -63,14 +63,14 @@ public class UserWS {
     @Produces(MediaType.APPLICATION_JSON)
     public User list(@PathParam("id") Long id) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
-        return PanacheEntityBase.findById(id);
+        return User.findById(id);
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User delete(@PathParam("id") Long id) {
-        User u = PanacheEntityBase.findById(id);
+        User u = User.findById(id);
         u.delete();
         return u;
     }
@@ -80,18 +80,18 @@ public class UserWS {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public User edit(@FormParam("id") Long id, @FormParam("nome") String nome, @FormParam("senha") String senha) {
-        User u = PanacheEntityBase.findById(id);
+        User u = User.findById(id);
         u.setNome(nome);
         u.setSenha(senha);
         return u;
     }
 
-/*     @POST
+    @POST
     @Path("/findbylogin")
     @Produces(MediaType.APPLICATION_JSON)
     public User findByLogin(@FormParam("login") String login) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
-        return PanacheEntityBase.find("login", login).firstResult();
-    } */
+        return User.find("login", login).firstResult();
+    }
 
 }
