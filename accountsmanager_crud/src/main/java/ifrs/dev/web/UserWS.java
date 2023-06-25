@@ -3,8 +3,8 @@ package ifrs.dev.web;
 import java.util.List;
 
 import ifrs.dev.model.User;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -37,21 +37,22 @@ public class UserWS {
             user.persist();
             return user;
         } catch (RuntimeException e) {
-            if (nome == null || nome.isEmpty() || login == null || login.isEmpty() || senha == null
+            if (nome == null || nome.isEmpty() || login.isEmpty() || senha == null
                     || senha.isEmpty()) {
                 System.out.println("Nome não pode ser nulo ou vazio");
             }  else if (findByLogin(login) != null) {
                 System.out.println("Login já existe");
             }
-            return null;
+            // return null;
         } catch (Exception e) {
             System.out.println("Erro ao salvar");
-            return null;
         }
+        return null;
     }
 
     @GET
     @Path("/list")
+    @RolesAllowed("User, Admin")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> list() {
         // 3 - O método `listAll` recupera todos os objetos da classe User.
@@ -60,6 +61,7 @@ public class UserWS {
 
     @GET
     @Path("/list/{id}")
+    @RolesAllowed("User, Admin")
     @Produces(MediaType.APPLICATION_JSON)
     public User list(@PathParam("id") Long id) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
@@ -68,6 +70,7 @@ public class UserWS {
 
     @DELETE
     @Path("/delete/{id}")
+    @RolesAllowed("User, Admin")
     @Produces(MediaType.APPLICATION_JSON)
     public User delete(@PathParam("id") Long id) {
         User u = User.findById(id);
@@ -77,6 +80,7 @@ public class UserWS {
 
     @PUT
     @Path("/edit")
+    @RolesAllowed("User, Admin")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public User edit(@FormParam("id") Long id, @FormParam("nome") String nome, @FormParam("senha") String senha) {
@@ -88,6 +92,7 @@ public class UserWS {
 
     @POST
     @Path("/findbylogin")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public User findByLogin(@FormParam("login") String login) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.

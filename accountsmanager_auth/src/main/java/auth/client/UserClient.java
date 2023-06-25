@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 @AccessToken
 @RegisterRestClient(baseUri = "http://localhost:8081/user")
 public interface UserClient {
+    
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
