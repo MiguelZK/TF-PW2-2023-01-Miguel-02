@@ -32,7 +32,7 @@ public class LoginWS {
     public String generate(@FormParam("login") String login, @FormParam("senha") String senha) {
         User meuUser = user.findByLogin(login);
         if (meuUser != null &&  (meuUser.getSenha().equals(senha))) {
-                return Jwt.issuer("stringParaValidarJWT")
+                return Jwt.issuer("http://localhost:8080") //string para validar JWT
                         .upn(login)
                         .groups(new HashSet<>(Arrays.asList("User", "Admin"))) // Não será usado neste projeto - mas dá
                                                                                // pra deixar assim por enquanto (é
