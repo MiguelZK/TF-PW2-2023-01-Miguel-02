@@ -1,9 +1,12 @@
 package auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
     private Long id;
     private String nome;
     private String login;
+    @JsonIgnore
     private String senha;
 
     public Long getId() {

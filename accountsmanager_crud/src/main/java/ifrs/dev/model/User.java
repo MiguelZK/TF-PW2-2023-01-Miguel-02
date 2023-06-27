@@ -3,7 +3,7 @@ package ifrs.dev.model;
 import java.util.LinkedList;
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -21,6 +21,7 @@ public class User extends PanacheEntity {
     @Column(unique = true)
     private String login;
 
+    @JsonIgnore
     private String senha;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

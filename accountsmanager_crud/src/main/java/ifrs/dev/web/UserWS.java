@@ -15,6 +15,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/user")
@@ -46,6 +47,7 @@ public class UserWS {
             // return null;
         } catch (Exception e) {
             System.out.println("Erro ao salvar");
+            throw new WebApplicationException(403);
         }
         return null;
     }
@@ -95,6 +97,7 @@ public class UserWS {
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public User findByLogin(@FormParam("login") String login) {
+        System.out.println("Testando conexão");
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
         return User.find("login", login).firstResult();
     }
