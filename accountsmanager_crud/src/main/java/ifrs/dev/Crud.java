@@ -1,7 +1,6 @@
 package ifrs.dev;
 
 import jakarta.annotation.security.PermitAll;
-// import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -12,7 +11,6 @@ public class Crud {
     
     @GET
     @PermitAll
-    // @RolesAllowed("User")
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
         return "Hello RESTEasy";

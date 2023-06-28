@@ -14,14 +14,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class User extends PanacheEntity {
+    
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
+    @NotBlank(message = "Login é obrigatório")
     @Column(unique = true)
     private String login;
 
+    @NotBlank(message = "Senha é obrigatória")
     @JsonIgnore
     private String senha;
 
