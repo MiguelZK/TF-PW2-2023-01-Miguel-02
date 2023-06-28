@@ -59,9 +59,10 @@ public class UserWS {
 
     @GET
     @Path("/list")
-    @RolesAllowed("Admin,")
+    @RolesAllowed("God")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> list() {
+        // jwt.claim(null) - Colocar verificação de que usuário existe e token não é desatualizado.
         // 3 - O método `listAll` recupera todos os objetos da classe User.
         return User.listAll();
     }
