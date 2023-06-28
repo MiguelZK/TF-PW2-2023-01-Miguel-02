@@ -8,6 +8,15 @@ public class User {
     private String login;
     @JsonIgnore
     private String senha;
+    // private HashSet<String> roles;
+
+    /* public HashSet<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(HashSet<String> roles) {
+        this.roles = roles;
+    } */
 
     public Long getId() {
         return id;

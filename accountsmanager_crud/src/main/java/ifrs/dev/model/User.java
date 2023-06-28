@@ -1,5 +1,6 @@
 package ifrs.dev.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,17 @@ public class User extends PanacheEntity {
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     private List<Conta> contas;
+    
+/*     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private HashSet<String> roles;
+
+    public HashSet<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(HashSet<String> roles) {
+        this.roles = roles;
+    } */
 
     public User() {
         this.contas = new LinkedList<>();

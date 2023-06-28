@@ -19,5 +19,5 @@ public interface UserClient {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/findbylogin")
-    public User findByLogin(@FormParam("login") String login);
+    public User findByLogin(@FormParam("login") String login, @FormParam("senha") String senha);
 }

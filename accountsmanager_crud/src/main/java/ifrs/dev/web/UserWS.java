@@ -2,9 +2,12 @@ package ifrs.dev.web;
 
 import java.util.List;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import ifrs.dev.model.User;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -21,6 +24,9 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/user")
 @Transactional
 public class UserWS {
+
+    @Inject
+    JsonWebToken jwt;
 
     @POST
     @Path("/save")
@@ -40,11 +46,10 @@ public class UserWS {
         } catch (RuntimeException e) {
             if (nome == null || nome.isEmpty() || login.isEmpty() || senha == null
                     || senha.isEmpty()) {
-                System.out.println("Nome não pode ser nulo ou vazio");
+                throw new WebApplicationException("Nome n\u00E3o pode ser nulo ou vazio", 404);
             }  else if (findByLogin(login) != null) {
-                System.out.println("Login já existe");
+                throw new WebApplicationException("Login j\u00E1 existe", 404);
             }
-            // return null;
         } catch (Exception e) {
             System.out.println("Erro ao salvar");
             throw new WebApplicationException(403);
@@ -54,7 +59,7 @@ public class UserWS {
 
     @GET
     @Path("/list")
-    @RolesAllowed("User, Admin")
+    @RolesAllowed("Admin,")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> list() {
         // 3 - O método `listAll` recupera todos os objetos da classe User.
@@ -63,7 +68,7 @@ public class UserWS {
 
     @GET
     @Path("/list/{id}")
-    @RolesAllowed("User, Admin")
+    @RolesAllowed("God")
     @Produces(MediaType.APPLICATION_JSON)
     public User list(@PathParam("id") Long id) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
@@ -95,10 +100,14 @@ public class UserWS {
     @POST
     @Path("/findbylogin")
     @PermitAll
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public User findByLogin(@FormParam("login") String login) {
-        System.out.println("Testando conexão");
+    public User findByLogin(@FormParam("login") String login, @FormParam("senha") String senha) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
+        return User.find("login = ?1 AND senha = ?2", login, senha).firstResult();
+    }
+
+    private User findByLogin(@FormParam("login") String login) {
         return User.find("login", login).firstResult();
     }
 
