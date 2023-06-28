@@ -35,7 +35,8 @@ public class LoginWS {
         if (meuUser != null /* &&  (meuUser.getSenha().equals(senha)) */) {
                 return Jwt.issuer("http://localhost:8080") //string para validar JWT
                         .upn(login)
-                        .groups(new HashSet<>(Arrays.asList("User", "Admin", "God"))) // Não será usado neste projeto - mas dá
+                        // .groups(new HashSet<>(Arrays.asList("User", "Admin", "God"))) // Não será usado neste projeto - mas dá
+                        .groups(new HashSet<>(Arrays.asList("User", "Admin"))) // Não será usado neste projeto - mas dá
                         // .groups(meuUser.getRoles()) // Não será usado neste projeto - mas dá
                                                                                // pra deixar assim por enquanto (é
                                                                                // interessante pelo menos 1 role)
