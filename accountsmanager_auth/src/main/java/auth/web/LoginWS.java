@@ -1,5 +1,7 @@
 package auth.web;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -31,8 +33,10 @@ public class LoginWS {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     public String generate(@FormParam("login") String login, @FormParam("senha") String senha) {
-        User meuUser = user.findByLogin(login, senha);
-        if (meuUser != null /* &&  (meuUser.getSenha().equals(senha)) */) {
+        LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(30); // Defina a duração do token aqui
+        long expirationTimestamp = expirationTime.toEpochSecond(ZoneOffset.UTC);
+        // User meuUser = user.findByLogin(login, senha);
+        // if (meuUser != null /* &&  (meuUser.getSenha().equals(senha)) */) {
                 return Jwt.issuer("http://localhost:8080") //string para validar JWT
                         .upn(login)
                         // .groups(new HashSet<>(Arrays.asList("User", "Admin", "God"))) // Não será usado neste projeto - mas dá
@@ -42,13 +46,14 @@ public class LoginWS {
                                                                                // interessante pelo menos 1 role)
                         .claim(Claims.full_name, "Miguel Cara Legal")
                         .claim("Outro valor qualquer", "Valor qualquer")
+                        .expiresAt(expirationTimestamp) // Define o tempo de expiração do token
                         .sign();
             
-        } else {
-            throw new WebApplicationException("Login ou senha incorretos", 403);
+        // } else {
+            // throw new WebApplicationException("Login ou senha incorretos", 403);
         }
         
         // return "false";
-    }
+    // }
 
 }

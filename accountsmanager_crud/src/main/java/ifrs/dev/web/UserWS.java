@@ -59,7 +59,7 @@ public class UserWS {
 
     @GET
     @Path("/list")
-    @RolesAllowed("Admin")
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> list() {
         // jwt.claim(null) - Colocar verificação de que usuário existe e token não é desatualizado.
@@ -69,7 +69,7 @@ public class UserWS {
 
     @GET
     @Path("/list/{id}")
-    @RolesAllowed("God")
+    @RolesAllowed({"Admin", "User"})
     @Produces(MediaType.APPLICATION_JSON)
     public User list(@PathParam("id") Long id) {
         // 4 - O método do Panache `findById` recupera um objeto da classe User.
@@ -78,7 +78,7 @@ public class UserWS {
 
     @DELETE
     @Path("/delete/{id}")
-    @RolesAllowed("User, Admin")
+    @RolesAllowed({"Admin", "User"})
     @Produces(MediaType.APPLICATION_JSON)
     public User delete(@PathParam("id") Long id) {
         User u = User.findById(id);
@@ -88,7 +88,7 @@ public class UserWS {
 
     @PUT
     @Path("/edit")
-    @RolesAllowed("User, Admin")
+    @RolesAllowed({"Admin"})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public User edit(@FormParam("id") Long id, @FormParam("nome") String nome, @FormParam("senha") String senha) {

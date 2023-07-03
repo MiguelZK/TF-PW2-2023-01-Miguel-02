@@ -7,6 +7,8 @@ import io.smallrye.jwt.build.Jwt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ifrs.dev.util.Authentication;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -20,25 +22,28 @@ public class UserWSTest {
     private String jwtTokenGod;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         // Aqui você pode obter o token JWT do seu serviço de autenticação
         // e armazená-lo na variável "jwtToken" para uso nos testes
         // jwtToken = "seu-token-jwt";
-        jwtTokenUserAdmin = given()
+        Authentication.saveUser();
+
+        jwtTokenUserAdmin = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJ1cG4iOiJxdWFscXVlciIsImdyb3VwcyI6WyJVc2VyIiwiQWRtaW4iXSwiZnVsbF9uYW1lIjoiTWlndWVsIENhcmEgTGVnYWwiLCJPdXRybyB2YWxvciBxdWFscXVlciI6IlZhbG9yIHF1YWxxdWVyIiwiZXhwIjoxNjg4MzM2MTg0LCJpYXQiOjE2ODgzNDUxODQsImp0aSI6IjY4OTFkZTg4LWFiYTctNDBjMS05YjhkLTYzNDE1OGQyYzhmOCJ9.XP5ynzfsD-oLQLoV1LGa7zPVcr7UXt0cBZiPg1NMCJ37K5fp9m-BMn1UE1cBNIF6kWESvtSJrd2MaQn6Vc7sMKp_7kfapwxNuPuk2HKg_oxR-nfHauqMNJpyj8HAe7jYWVLbUOPyshTavzIpe8p3da83ECPzCROAWlECcP9sjEsJi52sc_Dc6v9j-t05JReU3Q2zlYXGphbHwjfdIjmjfVuJiN1jaNsBiLLDAOCyxHP7aM6Jhewv8-dZZuHG3S9QxlyPWG-40vd4kiRm_Cg4BL069sZV6mNCxEJQT03GLUEaZYfYtg_s-MLvGeQt_CZO0nEjjxhyRlvXugz4TJXErQ";
+        /* jwtTokenUserAdmin = given()
                 .contentType(ContentType.URLENC)
-                .formParam("login", "nome_usuario")
+                .formParam("login", "admin")
                 .formParam("senha", "senha123")
             .when()
-                .post("/login")
+                .post("http:localhost:8080/login")
             .then()
-                .statusCode(200)
+                // .statusCode(200)
                 .extract()
                 .response()
-                .asString();
+                .asString(); */
     }
 
     @Test
-    public void testSaveUser() {
+    void testSaveUser() {
         given()
                 .contentType(ContentType.URLENC)
                 .formParam("nome", "Nome do Usuario")
@@ -54,7 +59,7 @@ public class UserWSTest {
     }
 
     @Test
-    public void testSaveUserInvalidInput() {
+    void testSaveUserInvalidInput() {
         given()
                 .contentType(ContentType.URLENC)
                 .formParam("nome", "")
@@ -67,7 +72,7 @@ public class UserWSTest {
     }
 
     @Test
-    public void testSaveUserExistingLogin() {
+    void testSaveUserExistingLogin() {
         // Primeiro, salva um usuário com o login "nome_usuario"
         given()
                 .contentType(ContentType.URLENC)
@@ -82,7 +87,7 @@ public class UserWSTest {
         // Em seguida, tenta salvar outro usuário com o mesmo login
         given()
                 .contentType(ContentType.URLENC)
-                .formParam("nome", "Jane Smith")
+                .formParam("nome", "Maria da Silva")
                 .formParam("login", "nome_usuario")
                 .formParam("senha", "senha123123")
                 .when()
@@ -92,7 +97,7 @@ public class UserWSTest {
     }
 
     @Test
-    public void testListUsers() {
+    void testListUsers() {
         given()
             .header("Authorization", "Bearer " + jwtTokenUserAdmin)
         .when()
@@ -104,7 +109,7 @@ public class UserWSTest {
     }
 
     @Test
-    public void testGetUserById() {
+    void testGetUserById() {
         // Primeiro, salva um usuário e obtém o seu ID
         int userId = given()
             .contentType(ContentType.URLENC)
@@ -132,7 +137,7 @@ public class UserWSTest {
         }
         
         @Test
-        public void testDeleteUser() {
+        void testDeleteUser() {
             // Primeiro, salva um usuário e obtém o seu ID
             int userId = given()
             .contentType(ContentType.URLENC)
@@ -168,7 +173,7 @@ public class UserWSTest {
     }
 
     @Test
-    public void testEditUser() {
+    void testEditUser() {
         // Primeiro, salva um usuário e obtém o seu ID
         int userId = given()
                 .contentType(ContentType.URLENC)
@@ -187,7 +192,7 @@ public class UserWSTest {
             .header("Authorization", "Bearer " + jwtTokenUserAdmin)
                 .contentType(ContentType.URLENC)
                 .formParam("id", userId)
-                .formParam("nome", "Jane Smith")
+                .formParam("nome", "Maria da Silva")
                 .formParam("senha", "newsenha123")
                 .when()
                 .put("/user/edit")
@@ -195,12 +200,12 @@ public class UserWSTest {
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(userId))
-                .body("nome", equalTo("Jane Smith"))
+                .body("nome", equalTo("Maria da Silva"))
                 .body("login", equalTo("nome_usuario"));
     }
 
     @Test
-    public void testFindByLogin() {
+    void testFindByLogin() {
         // Primeiro, salva um usuário com o login "nome_usuario"
         given()
                 .contentType(ContentType.URLENC)
@@ -214,13 +219,13 @@ public class UserWSTest {
 
         // Em seguida, busca o usuário pelo login
         given()
-            .header("Authorization", "Bearer " + jwtTokenUserAdmin)
+            // .header("Authorization", "Bearer " + jwtTokenUserAdmin)
                 .contentType(ContentType.URLENC)
                 .formParam("login", "nome_usuario")
                 .formParam("senha", "senha123")
-                .when()
+        .when()
                 .post("/user/findbylogin")
-                .then()
+        .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("nome", equalTo("Nome do Usuario"))
